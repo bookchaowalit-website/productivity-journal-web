@@ -1,3 +1,11 @@
+# Journal — design
+
+Since 2026-11-14 this app uses the shared App shell (`APP-SHELL.md`) as a single-column reading
+app: latest-entry card, mood chips (links), entry rows with mood pills, and a 65ch prose page.
+The earlier "field notes" theme below is kept for history.
+
+---
+
 ---
 name: Field Notes Journal
 description: A warm field notebook for moods, work, and observations in progress.

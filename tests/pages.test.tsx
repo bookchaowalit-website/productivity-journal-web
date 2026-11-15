@@ -6,9 +6,10 @@ import JournalPage from "@/app/journal/page";
 describe("home page", () => {
   it("renders the notebook intro, the latest entry and the mood register", async () => {
     const html = renderToString(await HomePage());
-    expect(html).toContain("the middle.");
+    expect(html).toContain("<h1>Journal</h1>");
+    expect(html).toContain('class="as"');
     expect(html).toContain("Happy New Beginnings");
-    expect(html).toContain("The mood register");
+    expect(html).toContain(">Moods</h2>");
     expect(html).not.toContain("# Happy New Beginnings");
   });
 });
@@ -16,13 +17,13 @@ describe("home page", () => {
 describe("archive page", () => {
   it("lists all five entries without a mood filter", async () => {
     const html = renderToString(await JournalPage({ searchParams: Promise.resolve({}) }));
-    expect(html.match(/class="archive-row"/g)).toHaveLength(5);
+    expect(html.match(/class="as-row as-row-link"/g)).toHaveLength(5);
     expect(html).toContain('href="/journal?mood=happy"');
   });
 
   it("the mood filter really filters the list", async () => {
     const html = renderToString(await JournalPage({ searchParams: Promise.resolve({ mood: "frustrated" }) }));
-    expect(html.match(/class="archive-row"/g)).toHaveLength(1);
+    expect(html.match(/class="as-row as-row-link"/g)).toHaveLength(1);
     expect(html).toContain("Challenging Day");
     expect(html).toMatch(/aria-current="page"[^>]*>frustrated|>frustrated<\/a>/);
   });
