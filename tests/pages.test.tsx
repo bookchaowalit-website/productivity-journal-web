@@ -28,3 +28,11 @@ describe("archive page", () => {
     expect(html).toMatch(/aria-current="page"[^>]*>frustrated|>frustrated<\/a>/);
   });
 });
+
+describe("about section", () => {
+  it("home explains what the journal is and that reading stores nothing", async () => {
+    const html = renderToString(await HomePage());
+    expect(html).toContain(">About this journal</h2>");
+    expect(html).toContain("read-only personal log");
+  });
+});

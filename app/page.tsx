@@ -27,36 +27,54 @@ export default async function HomePage() {
         </Link>
       ) : null}
 
-      <section className="as-section" aria-labelledby="moods-title">
-        <h2 id="moods-title" className="as-section-title">Moods</h2>
-        <nav className="as-chips" aria-label="Browse by mood">
-          {moods.map((mood) => (
-            <Link key={mood} href={`/journal?mood=${encodeURIComponent(mood)}`} className="as-chip-link">
-              {label(mood)} <span>{entries.filter((entry) => entry.mood === mood).length}</span>
-            </Link>
-          ))}
-        </nav>
-      </section>
+      {entries.length ? (
+        <>
+          <section className="as-section" aria-labelledby="moods-title">
+            <h2 id="moods-title" className="as-section-title">Moods</h2>
+            <nav className="as-chips" aria-label="Browse by mood">
+              {moods.map((mood) => (
+                <Link key={mood} href={`/journal?mood=${encodeURIComponent(mood)}`} className="as-chip-link">
+                  {label(mood)} <span>{entries.filter((entry) => entry.mood === mood).length}</span>
+                </Link>
+              ))}
+            </nav>
+          </section>
 
-      <section className="as-section" aria-labelledby="recent-title">
-        <div className="as-section-head">
-          <h2 id="recent-title" className="as-section-title">Recent entries</h2>
-          <Link href="/journal" className="as-plain">All entries ›</Link>
+          <section className="as-section" aria-labelledby="recent-title">
+            <div className="as-section-head">
+              <h2 id="recent-title" className="as-section-title">Recent entries</h2>
+              <Link href="/journal" className="as-plain">All entries ›</Link>
+            </div>
+            <ul className="as-list as-list-links">
+              {entries.slice(0, 5).map((entry) => (
+                <li key={entry.slug}>
+                  <Link href={`/journal/${entry.slug}`} className="as-row as-row-link">
+                    <div>
+                      <h3>{entry.title}</h3>
+                      <p className="as-row-meta">{formatDate(entry.date)}</p>
+                    </div>
+                    <Pill tone={moodTone(entry.mood)}>{label(entry.mood)}</Pill>
+                    <span className="as-chevron" aria-hidden="true">›</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      ) : (
+        <div className="as-list as-empty">
+          <strong>No entries yet</strong>
+          Entries are written as files in this site’s content. Once the first one is published it shows up here, newest first.
         </div>
-        <ul className="as-list as-list-links">
-          {entries.slice(0, 5).map((entry) => (
-            <li key={entry.slug}>
-              <Link href={`/journal/${entry.slug}`} className="as-row as-row-link">
-                <div>
-                  <h3>{entry.title}</h3>
-                  <p className="as-row-meta">{formatDate(entry.date)}</p>
-                </div>
-                <Pill tone={moodTone(entry.mood)}>{label(entry.mood)}</Pill>
-                <span className="as-chevron" aria-hidden="true">›</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+      )}
+
+      <section className="as-section" aria-labelledby="about-title">
+        <h2 id="about-title" className="as-section-title">About this journal</h2>
+        <p className="as-note">
+          A read-only personal log. Each entry is a dated note with a mood, published with this site’s content and shown
+          newest first. There is no account and nothing to type here: nothing is saved in your browser, and the only
+          analytics are anonymous page-view and page-speed counts.
+        </p>
       </section>
       <p className="as-note">Written to understand, not to perform.</p>
     </PageFrame>
