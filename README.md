@@ -39,4 +39,4 @@ build) and the shared security scan on every push and PR to `main`.
 - `app/api/mcp/route.ts`: read-only JSON-RPC endpoint over the same entries.
 - `lib/sentry.ts` + `instrumentation*.ts`: error reporting to Sentry, errors only, personal data stripped; off when
   `NEXT_PUBLIC_SENTRY_DSN` is unset.
-- `app/more-projects/page.tsx`: shared portfolio link page (copied per repository, not a package).
+- `/more-projects` permanently redirects to https://bookchaowalit.com/ (`next.config.ts`).
