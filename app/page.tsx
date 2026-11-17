@@ -72,8 +72,8 @@ export default async function HomePage() {
         <h2 id="about-title" className="as-section-title">About this journal</h2>
         <p className="as-note">
           A read-only personal log. Each entry is a dated note with a mood, published with this site’s content and shown
-          newest first. There is no account and nothing to type here: nothing is saved in your browser, and the only
-          analytics are anonymous page-view and page-speed counts.
+          newest first. There is no account and nothing to type here: nothing is saved in your browser, and there are no
+          analytics or tracking scripts.
         </p>
       </section>
       <p className="as-note">Written to understand, not to perform.</p>

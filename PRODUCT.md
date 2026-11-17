@@ -31,7 +31,7 @@ A portfolio visitor who wants to see a calm, editorial reading surface for dated
 - No editor, daily prompts, mood-tracking input, accounts, privacy controls, calendar view or habit tracking (claims
   removed from the portfolio card in the 2026-10 review). Entries change only by editing files in the repository.
 - The five entries are sample content, not a real diary.
-- No storage or sync. No product analytics beyond Vercel Analytics.
+- No storage or sync. No analytics or tracking scripts (removed 2026-11-17; no consent banner needed).
 
 ## Live URL and deploy state
 
