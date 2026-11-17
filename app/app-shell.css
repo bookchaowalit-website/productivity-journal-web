@@ -184,6 +184,8 @@
 .as-row-link:focus-visible { outline: 3px solid var(--as-focus); outline-offset: -3px; }
 .as-row-meta { font-size: 13px !important; }
 .as-chevron { color: var(--as-muted); font-size: 22px; line-height: 1; }
+/* Link rows keep their three columns on phones: the phone .as-row rule moves pills to column 1 for action rows only. */
+@media (max-width: 760px) { .as-row-link .as-pill { grid-column: auto; justify-self: end; } }
 .as-run { display: grid; gap: 20px; }
 .as-progress-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px 12px; padding: 16px; border: 1px solid var(--as-line); border-radius: 18px; background: var(--as-surface); box-shadow: var(--as-shadow); }
 .as-progress-text { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
