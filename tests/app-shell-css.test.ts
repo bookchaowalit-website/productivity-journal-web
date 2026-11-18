@@ -49,6 +49,9 @@ describe("long mood names", () => {
   it("wrap inside mood chips", () => {
     expect(css).toMatch(/\.as-chip-link \{[^}]*max-width: 100%[^}]*overflow-wrap: anywhere/);
   });
+  it("wrap inside entry tags on the reading page", () => {
+    expect(css).toMatch(/\.as-tag \{[^}]*max-width: 100%[^}]*min-width: 0[^}]*overflow-wrap: anywhere/);
+  });
   it("wrap inside the archive summary line", () => {
     expect(css).toMatch(/\.as-intro p \{[^}]*overflow-wrap: anywhere/);
   });
