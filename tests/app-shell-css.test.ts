@@ -30,3 +30,16 @@ describe("card and chip hover", () => {
     });
   }
 });
+
+describe("mood pill on narrow screens", () => {
+  it("wraps a long free-text mood inside its box instead of forcing one line", () => {
+    const pill = css.match(/\.as-pill \{([^}]*)\}/)?.[1] ?? "";
+    expect(pill).toContain("white-space: normal");
+    expect(pill).toContain("max-width: 100%");
+    expect(pill).toContain("overflow-wrap: anywhere");
+  });
+
+  it("caps the pill column of a link row so the title column never collapses to 0px", () => {
+    expect(css).toMatch(/\.as-row-link \{[^}]*grid-template-columns: minmax\(0, 1fr\) fit-content\(40%\) 16px;/);
+  });
+});
