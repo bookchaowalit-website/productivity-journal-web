@@ -43,3 +43,13 @@ describe("mood pill on narrow screens", () => {
     expect(css).toMatch(/\.as-row-link \{[^}]*grid-template-columns: minmax\(0, 1fr\) fit-content\(40%\) 16px;/);
   });
 });
+
+// A long mood with no spaces must wrap inside the chip and the archive summary at 320px (Codex review, 2026-11-18).
+describe("long mood names", () => {
+  it("wrap inside mood chips", () => {
+    expect(css).toMatch(/\.as-chip-link \{[^}]*max-width: 100%[^}]*overflow-wrap: anywhere/);
+  });
+  it("wrap inside the archive summary line", () => {
+    expect(css).toMatch(/\.as-intro p \{[^}]*overflow-wrap: anywhere/);
+  });
+});
