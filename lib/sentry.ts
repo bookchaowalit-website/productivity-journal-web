@@ -1,6 +1,7 @@
 // Sentry settings shared by the browser, Node.js and Edge runtimes.
-// Errors only: no tracing, no trace headers on outgoing requests, no replay,
-// and nothing that can carry user input (URLs, query strings, headers, cookies, bodies, locals).
+// Errors only: no tracing, no trace headers on outgoing requests, no replay, no session/release-health
+// counts (see withoutSessions), and nothing that can carry user input (URLs, query strings, headers,
+// cookies, bodies, locals).
 
 type Frame = { vars?: unknown; filename?: string; abs_path?: string };
 type ScrubbableEvent = {
@@ -110,4 +111,19 @@ export function sentryOptions(dsn: string | undefined) {
     beforeSend: scrubEvent,
     beforeSendTransaction: () => null,
   };
+}
+
+/**
+ * Drops Sentry session tracking, so nothing is sent for a visit that has no error. Sessions bypass beforeSend:
+ * the browser's BrowserSession integration reports every page load, Node's ProcessSession reports the server
+ * process, and the server's Http integration counts every request once a release is set. The first two are
+ * removed; on the server, pass `httpWithoutSessions` to swap Http for the same integration built with
+ * `sessions: false` (it still reports errors).
+ */
+const SESSION_INTEGRATIONS = new Set(["BrowserSession", "ProcessSession"]);
+
+export function withoutSessions<T extends { name: string }>(integrations: T[], httpWithoutSessions?: () => T): T[] {
+  return integrations
+    .filter((integration) => !SESSION_INTEGRATIONS.has(integration.name))
+    .map((integration) => (integration.name === "Http" && httpWithoutSessions ? httpWithoutSessions() : integration));
 }

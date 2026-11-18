@@ -18,6 +18,7 @@
   --as-line: #d2d2d7;
   --as-field-line: #86868b;
   --as-hover: rgb(0 0 0 / 5%);
+  --as-surface-hover: #f6f6f6; /* hover on a white card or chip: --as-muted keeps 4.69:1 */
   --as-selected: #e8e8ed;
   --as-accent: #0066cc;
   --as-button: #0071e3;
@@ -35,7 +36,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --as-bg: #000000; --as-surface: #1c1c1e; --as-fg: #f5f5f7; --as-muted: #a1a1a6; --as-line: #38383a; --as-field-line: #7c7c80;
-    --as-hover: rgb(255 255 255 / 6%); --as-selected: #2c2c2e; --as-accent: #2997ff; --as-focus: #2997ff; --as-danger: #ff6961;
+    --as-hover: rgb(255 255 255 / 6%); --as-surface-hover: #252527; --as-selected: #2c2c2e; --as-accent: #2997ff; --as-focus: #2997ff; --as-danger: #ff6961;
     --as-green: #30d158; --as-green-bg: #0f2e18; --as-amber: #ffd60a; --as-amber-bg: #3a2e00; --as-grey: #c7c7cc; --as-grey-bg: #2c2c2e; --as-red: #ff8a80; --as-red-bg: #3b1513;
     --as-shadow: none;
   }
@@ -207,7 +208,9 @@
 
 /* Added with journal (2026-11-14): featured card, mood chips that are links, tags and long-form prose. */
 .as-card-link { display: grid; gap: 8px; padding: 20px; border: 1px solid var(--as-line); border-radius: 18px; background: var(--as-surface); box-shadow: var(--as-shadow); color: inherit; text-decoration: none; }
-.as-card-link:hover { background: var(--as-hover); }
+/* Cards and chips are white surfaces on the grey page: --as-hover would swap the white for a translucent tint
+   over --as-bg (--as-muted 4.18:1). Tint the surface itself instead: 4.69:1 light, 5.95:1 dark. */
+.as-card-link:hover { background: var(--as-surface-hover); }
 .as-card-link h2 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -.01em; }
 .as-card-link p { margin: 0; color: var(--as-muted); font-size: 16px; line-height: 1.6; }
 .as-card-link .as-pill { justify-self: start; }
@@ -218,7 +221,7 @@
 .as-section-head + .as-list { margin-top: 8px; }
 .as-chip-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border: 1px solid var(--as-line); border-radius: 980px; background: var(--as-surface); color: var(--as-fg); font-size: 15px; text-decoration: none; }
 .as-chip-link span { color: var(--as-muted); font-variant-numeric: tabular-nums; }
-.as-chip-link:hover { background: var(--as-hover); }
+.as-chip-link:hover { background: var(--as-surface-hover); }
 .as-chip-link[aria-current="page"] { border-color: var(--as-fg); background: var(--as-fg); color: var(--as-bg); }
 .as-chips-filter { margin: 0 0 16px; }
 .as-chips-filter .as-chip-link { text-transform: capitalize; }
