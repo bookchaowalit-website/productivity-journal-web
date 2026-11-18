@@ -5,8 +5,19 @@ import { isValidSlug, parseEntry, sortNewestFirst, uniqueMoods, type JournalEntr
 
 const ENTRIES_DIR = path.join(process.cwd(), "content", "journal");
 
+/** File names in content/journal. Git keeps no empty folders, so a checkout with no entries has no folder at all:
+ *  that is the "no entries yet" state, not an error. Any other read error is thrown. */
+async function listEntryFiles(): Promise<string[]> {
+  try {
+    return await fs.readdir(ENTRIES_DIR);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+    throw error;
+  }
+}
+
 export async function getJournalEntries(): Promise<JournalEntry[]> {
-  const files = (await fs.readdir(ENTRIES_DIR)).filter((file) => file.endsWith(".mdx"));
+  const files = (await listEntryFiles()).filter((file) => file.endsWith(".mdx"));
   const entries = await Promise.all(
     files.map(async (file) => {
       const slug = file.slice(0, -".mdx".length);

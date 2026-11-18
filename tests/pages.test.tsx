@@ -35,4 +35,11 @@ describe("about section", () => {
     expect(html).toContain(">About this journal</h2>");
     expect(html).toContain("read-only personal log");
   });
+
+  it("says error reports still go to Sentry instead of claiming no scripts at all (PRODUCT.md item 5)", async () => {
+    const html = renderToString(await HomePage());
+    expect(html).toContain("there is no visitor analytics");
+    expect(html).toMatch(/error report \(with personal data stripped\) goes to Sentry/);
+    expect(html).not.toMatch(/no analytics or tracking scripts/);
+  });
 });
