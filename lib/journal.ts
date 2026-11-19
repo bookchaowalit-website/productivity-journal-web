@@ -40,8 +40,11 @@ export function sortNewestFirst(entries: JournalEntry[]): JournalEntry[] {
   return [...entries].sort((a, b) => b.date.localeCompare(a.date));
 }
 
+/** One mood per case-insensitive key (first spelling wins), so chips, counts and the filter agree. */
 export function uniqueMoods(entries: JournalEntry[]): string[] {
-  return [...new Set(entries.map((entry) => entry.mood))].sort();
+  const byKey = new Map<string, string>();
+  for (const entry of entries) if (!byKey.has(entry.mood.toLowerCase())) byKey.set(entry.mood.toLowerCase(), entry.mood);
+  return [...byKey.values()].sort();
 }
 
 /** Mood and tag match exactly (mood ignores case); query matches title, body, tags or mood; dates are inclusive. */

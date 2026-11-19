@@ -38,7 +38,7 @@ export default async function HomePage() {
             <h2 id="moods-title" className="as-section-title">Moods</h2>
             <nav className="as-chips" aria-label="Browse by mood">
               {moods.map((mood) => {
-                const count = entries.filter((entry) => entry.mood === mood).length;
+                const count = entries.filter((entry) => entry.mood.toLowerCase() === mood.toLowerCase()).length;
                 return (
                   <Link key={mood} href={`/journal?mood=${encodeURIComponent(mood)}`} className="as-chip-link">
                     <span className="as-dot" data-tone={moodTone(mood)} aria-hidden="true" />

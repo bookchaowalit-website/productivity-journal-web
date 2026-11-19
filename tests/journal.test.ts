@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { excerpt, filterEntries, isValidSlug, parseEntry } from "@/lib/journal";
+import { excerpt, filterEntries, isValidSlug, parseEntry, uniqueMoods } from "@/lib/journal";
 import { getEntryBySlug, getJournalEntries, getMoods } from "@/lib/mdx";
 
 describe("parseEntry", () => {
@@ -71,5 +71,14 @@ describe("content loading", () => {
       "reflective-evening",
       "creative-breakthrough",
     ]);
+  });
+});
+
+describe("uniqueMoods", () => {
+  it("folds moods that differ only in case into one chip, matching the case-insensitive filter", () => {
+    const base = { slug: "a", title: "A", date: "2026-11-01", tags: [], content: "x" };
+    const entries = [{ ...base, mood: "Calm" }, { ...base, slug: "b", mood: "calm" }, { ...base, slug: "c", mood: "Busy" }] as Parameters<typeof uniqueMoods>[0];
+    expect(uniqueMoods(entries)).toEqual(["Busy", "Calm"]);
+    expect(filterEntries(entries, { mood: "Calm" })).toHaveLength(2);
   });
 });
