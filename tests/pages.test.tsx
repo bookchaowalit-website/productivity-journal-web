@@ -12,6 +12,12 @@ describe("home page", () => {
     expect(html).toContain(">Moods</h2>");
     expect(html).not.toContain("# Happy New Beginnings");
   });
+
+  it("with several entries, Recent entries links to the full archive", async () => {
+    const html = renderToString(await HomePage());
+    expect(html).toContain("Recent entries");
+    expect(html).toMatch(/href="\/journal"[^>]*>All entries/);
+  });
 });
 
 describe("archive page", () => {

@@ -11,7 +11,9 @@ export default async function HomePage() {
   const entries = await getJournalEntries();
   const moods = await getMoods();
   const latest = entries[0];
-  // The latest entry has its own card above; the list starts with the one before it.
+  // The latest entry has its own card above; the list starts with the one before it. With one entry
+  // (or none) the archive would only repeat that card, so the Recent list and its "All entries" link
+  // are left out; the mood chips still open the archive filtered by mood.
   const recent = entries.slice(1, 6);
   return (
     <PageFrame>
