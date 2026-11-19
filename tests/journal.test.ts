@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { excerpt, filterEntries, isValidSlug, parseEntry, uniqueMoods } from "@/lib/journal";
+import { excerpt, filterEntries, isValidSlug, matchMood, parseEntry, uniqueMoods } from "@/lib/journal";
 import { getEntryBySlug, getJournalEntries, getMoods } from "@/lib/mdx";
 
 describe("parseEntry", () => {
@@ -80,5 +80,14 @@ describe("uniqueMoods", () => {
     const entries = [{ ...base, mood: "Calm" }, { ...base, slug: "b", mood: "calm" }, { ...base, slug: "c", mood: "Busy" }] as Parameters<typeof uniqueMoods>[0];
     expect(uniqueMoods(entries)).toEqual(["Busy", "Calm"]);
     expect(filterEntries(entries, { mood: "Calm" })).toHaveLength(2);
+  });
+});
+
+describe("matchMood", () => {
+  it("matches a ?mood= value case-insensitively and returns the listed spelling", () => {
+    expect(matchMood(["Calm", "busy"], "calm")).toBe("Calm");
+    expect(matchMood(["Calm", "busy"], "BUSY")).toBe("busy");
+    expect(matchMood(["Calm"], "tired")).toBeUndefined();
+    expect(matchMood(["Calm"], ["calm"])).toBeUndefined();
   });
 });

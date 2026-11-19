@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Pill } from "@/components/app-shell";
 import { label, moodTone } from "@/components/mood";
 import { PageFrame } from "@/components/page-frame";
-import { excerpt, filterEntries, formatDate, uniqueMoods } from "@/lib/journal";
+import { excerpt, filterEntries, formatDate, matchMood, uniqueMoods } from "@/lib/journal";
 import { getJournalEntries } from "@/lib/mdx";
 
 const SHORT_DATE: Intl.DateTimeFormatOptions = { weekday: "short", month: "short", day: "numeric", year: "numeric" };
@@ -11,7 +11,7 @@ export default async function JournalPage({ searchParams }: { searchParams: Prom
   const { mood: moodParam } = await searchParams;
   const all = await getJournalEntries();
   const moods = uniqueMoods(all);
-  const mood = typeof moodParam === "string" && moods.includes(moodParam) ? moodParam : undefined;
+  const mood = matchMood(moods, moodParam);
   const entries = filterEntries(all, { mood });
   return (
     <PageFrame back={{ href: "/", label: "Journal" }}>

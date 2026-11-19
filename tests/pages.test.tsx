@@ -33,6 +33,13 @@ describe("archive page", () => {
     expect(html).toContain("Challenging Day");
     expect(html).toMatch(/aria-current="page"[^>]*>frustrated|>frustrated<\/a>/);
   });
+
+  it("an old link with other casing still filters and selects the listed chip", async () => {
+    const html = renderToString(await JournalPage({ searchParams: Promise.resolve({ mood: "FRUSTRATED" }) }));
+    expect(html.match(/class="as-row as-row-link"/g)).toHaveLength(1);
+    expect(html).toContain("Challenging Day");
+    expect(html).toContain('aria-current="page" href="/journal?mood=frustrated"');
+  });
 });
 
 describe("about section", () => {

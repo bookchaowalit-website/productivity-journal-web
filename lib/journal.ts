@@ -47,6 +47,13 @@ export function uniqueMoods(entries: JournalEntry[]): string[] {
   return [...byKey.values()].sort();
 }
 
+/** The listed mood a `?mood=` value names, ignoring case (old links may use another casing), or undefined. */
+export function matchMood(moods: string[], param: unknown): string | undefined {
+  if (typeof param !== "string") return undefined;
+  const key = param.toLowerCase();
+  return moods.find((mood) => mood.toLowerCase() === key);
+}
+
 /** Mood and tag match exactly (mood ignores case); query matches title, body, tags or mood; dates are inclusive. */
 export function filterEntries(entries: JournalEntry[], filter: EntryFilter): JournalEntry[] {
   const query = filter.query?.trim().toLowerCase();
