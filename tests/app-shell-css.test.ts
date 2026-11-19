@@ -56,3 +56,17 @@ describe("long mood names", () => {
     expect(css).toMatch(/\.as-intro p \{[^}]*overflow-wrap: anywhere/);
   });
 });
+
+describe("review 2026-11-18", () => {
+  it("chips have a 3:1 edge, tighter phone gaps, and the card's stretched link keeps a focus ring", () => {
+    expect(css).toMatch(/\.as-chip-link \{ border-color: var\(--as-field-line\); \}/);
+    expect(css).toMatch(/@media \(max-width: 760px\) \{ \.as-chips \{ gap: 8px; \} \}/);
+    expect(css).toMatch(/\.as-stretched:focus-visible::after \{ outline: 3px solid var\(--as-focus\)/);
+  });
+});
+
+describe("narrow phones", () => {
+  it("link rows put the pill under the text below 560px so excerpts get the full width", () => {
+    expect(css).toMatch(/@media \(max-width: 560px\) \{\s*\.as-row-link \{ grid-template-columns: minmax\(0, 1fr\) 16px;/);
+  });
+});

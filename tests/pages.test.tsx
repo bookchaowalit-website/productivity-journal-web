@@ -43,3 +43,22 @@ describe("about section", () => {
     expect(html).not.toMatch(/no analytics or tracking scripts/);
   });
 });
+
+describe("home page (review 2026-11-18)", () => {
+  it("does not repeat the latest entry in Recent entries", async () => {
+    const html = renderToString(await HomePage());
+    expect(html.match(/Happy New Beginnings/g)).toHaveLength(1);
+    expect(html.match(/class="as-row as-row-link"/g)).toHaveLength(4);
+  });
+
+  it("the latest card links its title only, so the link name is the title", async () => {
+    const html = renderToString(await HomePage());
+    expect(html).toMatch(/<article class="as-card-link">/);
+    expect(html).toMatch(/<h2><a class="as-stretched" href="\/journal\/[^"]+">Happy New Beginnings<\/a><\/h2>/);
+  });
+
+  it("mood chips carry a tone dot and say what the number counts", async () => {
+    const html = renderToString(await HomePage()).replaceAll("<!-- -->", "");
+    expect(html).toMatch(/<span class="as-dot" data-tone="amber" aria-hidden="true"><\/span>Excited <span class="as-chip-count">1<span class="as-sr"> entry<\/span><\/span>/);
+  });
+});

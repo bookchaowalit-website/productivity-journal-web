@@ -241,3 +241,23 @@
 
 /* The top bar is sticky: keep skip-link targets and keyboard-focused controls clear of it when the page scrolls to them. */
 html { scroll-padding-top: 64px; scroll-padding-bottom: 16px; }
+
+/* Review 2026-11-18. The latest-entry card: only the title is the link, its ::after covers the card. */
+.as-card-link { position: relative; }
+.as-card-link h2 a { color: inherit; text-decoration: none; }
+.as-stretched::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.as-stretched:focus-visible { outline: none; }
+.as-stretched:focus-visible::after { outline: 3px solid var(--as-focus); outline-offset: 2px; }
+.as-card-link:hover h2 a { text-decoration: underline; text-underline-offset: 3px; }
+/* Mood chips read as controls: a 3:1 edge (--as-field-line) and the same tone dot as the mood pills. */
+.as-chip-link { border-color: var(--as-field-line); }
+.as-chip-link .as-dot { margin-right: 0; flex: none; }
+@media (max-width: 760px) { .as-chips { gap: 8px; } }
+/* Narrow phones: the pill goes under the text so titles and excerpts get the full row width. */
+@media (max-width: 560px) {
+  .as-row-link { grid-template-columns: minmax(0, 1fr) 16px; row-gap: 8px; }
+  .as-row-link .as-pill { grid-column: 1; grid-row: 2; justify-self: start; }
+  .as-row-link .as-chevron { grid-column: 2; grid-row: 1 / span 2; }
+}
+.as-note-list { margin: 0; padding-left: 20px; list-style: disc; }
+.as-note-list li + li { margin-top: 6px; }

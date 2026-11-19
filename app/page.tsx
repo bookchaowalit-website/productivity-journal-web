@@ -11,6 +11,8 @@ export default async function HomePage() {
   const entries = await getJournalEntries();
   const moods = await getMoods();
   const latest = entries[0];
+  // The latest entry has its own card above; the list starts with the one before it.
+  const recent = entries.slice(1, 6);
   return (
     <PageFrame>
       <header className="as-intro">
@@ -19,12 +21,13 @@ export default async function HomePage() {
       </header>
 
       {latest ? (
-        <Link href={`/journal/${latest.slug}`} className="as-card-link">
+        // The link is the title only (a short accessible name); its ::after stretches the click area over the card.
+        <article className="as-card-link">
           <p className="as-eyebrow">Latest · {formatDate(latest.date)}</p>
-          <h2>{latest.title}</h2>
+          <h2><Link href={`/journal/${latest.slug}`} className="as-stretched">{latest.title}</Link></h2>
           <p>{excerpt(latest.content, 260)}</p>
           <Pill tone={moodTone(latest.mood)}>{label(latest.mood)}</Pill>
-        </Link>
+        </article>
       ) : null}
 
       {entries.length ? (
@@ -32,21 +35,25 @@ export default async function HomePage() {
           <section className="as-section" aria-labelledby="moods-title">
             <h2 id="moods-title" className="as-section-title">Moods</h2>
             <nav className="as-chips" aria-label="Browse by mood">
-              {moods.map((mood) => (
-                <Link key={mood} href={`/journal?mood=${encodeURIComponent(mood)}`} className="as-chip-link">
-                  {label(mood)} <span>{entries.filter((entry) => entry.mood === mood).length}</span>
-                </Link>
-              ))}
+              {moods.map((mood) => {
+                const count = entries.filter((entry) => entry.mood === mood).length;
+                return (
+                  <Link key={mood} href={`/journal?mood=${encodeURIComponent(mood)}`} className="as-chip-link">
+                    <span className="as-dot" data-tone={moodTone(mood)} aria-hidden="true" />
+                    {label(mood)} <span className="as-chip-count">{count}<span className="as-sr"> {count === 1 ? "entry" : "entries"}</span></span>
+                  </Link>
+                );
+              })}
             </nav>
           </section>
 
-          <section className="as-section" aria-labelledby="recent-title">
+          {recent.length ? <section className="as-section" aria-labelledby="recent-title">
             <div className="as-section-head">
               <h2 id="recent-title" className="as-section-title">Recent entries</h2>
               <Link href="/journal" className="as-plain">All entries ›</Link>
             </div>
             <ul className="as-list as-list-links">
-              {entries.slice(0, 5).map((entry) => (
+              {recent.map((entry) => (
                 <li key={entry.slug}>
                   <Link href={`/journal/${entry.slug}`} className="as-row as-row-link">
                     <div>
@@ -59,7 +66,7 @@ export default async function HomePage() {
                 </li>
               ))}
             </ul>
-          </section>
+          </section> : null}
         </>
       ) : (
         <div className="as-list as-empty">
@@ -70,12 +77,11 @@ export default async function HomePage() {
 
       <section className="as-section" aria-labelledby="about-title">
         <h2 id="about-title" className="as-section-title">About this journal</h2>
-        <p className="as-note">
-          A read-only personal log. Each entry is a dated note with a mood, published with this site’s content and shown
-          newest first. There is no account and nothing to type here: nothing is saved in your browser, and there is no
-          visitor analytics. If the site breaks, an error report (with personal data stripped) goes to Sentry so it can be
-          fixed.
-        </p>
+        <ul className="as-note as-note-list">
+          <li>A read-only personal log: each entry is a dated note with a mood, published with this site’s content and shown newest first.</li>
+          <li>There is no account and nothing to type here: nothing is saved in your browser, and there is no visitor analytics.</li>
+          <li>If the site breaks, an error report (with personal data stripped) goes to Sentry so it can be fixed.</li>
+        </ul>
       </section>
       <p className="as-note">Written to understand, not to perform.</p>
     </PageFrame>
